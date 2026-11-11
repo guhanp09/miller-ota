@@ -1,0 +1,15 @@
+* Two-stage Miller-compensated OTA. All dimensions are micrometres.
+* Reference current is ideal; this is the amplifier core, not a complete bias IP.
+.subckt ota inp inn out vdd vss params: cc=2p rz=2k ibias=20u
+Iref vdd nb {ibias}
+Xbias nb nb vss vss sky130_fd_pr__nfet_01v8 w=10 l=1
+Xtail tail nb vss vss sky130_fd_pr__nfet_01v8 w=10 l=1
+X1 left inn tail vss sky130_fd_pr__nfet_01v8 w=10 l=1
+X2 mid inp tail vss sky130_fd_pr__nfet_01v8 w=10 l=1
+X3 left left vdd vdd sky130_fd_pr__pfet_01v8 w=10 l=1
+X4 mid left vdd vdd sky130_fd_pr__pfet_01v8 w=10 l=1
+X6 out mid vdd vdd sky130_fd_pr__pfet_01v8 w=100 l=1
+X7 out nb vss vss sky130_fd_pr__nfet_01v8 w=50 l=1
+Rz mid comp {rz}
+Cc comp out {cc}
+.ends ota
